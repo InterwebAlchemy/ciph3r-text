@@ -1,0 +1,77 @@
+{
+  "name": "@interwebalchemy/ciph3r-text",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "A React component for visually encoding and decoding text.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=23.0.0",
+    "npm": ">=11.0.0",
+    "bun": ">=1.2.4"
+  },
+  "author": {
+    "name": "Interweb Alchemy",
+    "url": "https://interwebalchemy.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InterwebAlchemy/ciph3r-text.git"
+  },
+  "bugs": {
+    "url": "https://github.com/InterwebAlchemy/ciph3r-text/issues"
+  },
+  "homepage": "https://github.com/InterwebAlchemy/ciph3r-text/",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts"
+  ],
+  "keywords": [
+    "react-component",
+    "text",
+    "text encoding",
+    "text decoding",
+    "text transformation",
+    "text animation",
+    "text visualization"
+  ],
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "prebuild": "npm run clean",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "lint": "bun exec prettier . --check",
+    "lint:fix": "bun exec prettier . --write",
+    "pretest": "bun run lint",
+    "prepare": "is-ci || husky"
+  },
+  "lint-staged": {
+    "package.json": "scriptlint --fix",
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "eslint": "^9.21.0",
+    "eslint-config-love": "^118.0.0",
+    "usehooks-ts": "^3.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.7.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "husky": "^9.1.7",
+    "is-ci": "^4.1.0",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.2",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.34.9",
+    "rollup-plugin-typescript": "^1.0.1",
+    "scriptlint": "^3.0.0",
+    "typescript": "latest"
+  }
+}
