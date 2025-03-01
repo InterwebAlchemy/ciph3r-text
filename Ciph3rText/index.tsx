@@ -216,6 +216,75 @@ export default function Ciph3rText({
     });
   };
 
+  /**
+   * Encodes the input text by gradually replacing characters with random ones until fully encoded
+   *
+   * @param text The input text to encode
+   * @returns The encoded text with characters replaced with random ones
+   */
+  const encodeText = (text: string): string => {
+    // If the text is completely randomized, we're done
+    if (text === randomizeText(defaultText) || iterations >= maxIterations) {
+      // Check if text is completely encoded (no character matches defaultText)
+      const isFullyEncoded = text
+        .split("")
+        .every((char, index) => char !== defaultText.charAt(index));
+
+      if (isFullyEncoded || iterations >= maxIterations) {
+        setIsDone(true);
+        // If we've hit max iterations or are fully encoded, return a fully randomized text
+        return randomizeText(defaultText);
+      }
+    }
+
+    // choose random number of characters to encode between 1 and 5
+    const numberOfCharactersToEncode =
+      Math.floor(Math.random() * MAXIMUM_CHARACTERS_TO_REVEAL) +
+      MINIMUM_CHARACTERS_TO_REVEAL;
+
+    // Create a new string to hold our encoded text
+    let encodedText = text;
+
+    // Track positions that have already been encoded to avoid re-encoding them
+    const encodedPositions = new Set();
+
+    // Keep track of how many characters we've encoded in this iteration
+    let encodedCount = 0;
+
+    // Find characters to encode (up to numberOfCharactersToEncode)
+    for (let i = 0; i < numberOfCharactersToEncode; i++) {
+      // If we've encoded every character or reached our limit, stop
+      if (
+        encodedCount >= numberOfCharactersToEncode ||
+        encodedCount >= defaultText.length
+      ) {
+        break;
+      }
+
+      // Choose a random position to encode
+      const position = Math.floor(Math.random() * defaultText.length);
+
+      // Skip if this position is already encoded or the character doesn't match the original
+      if (
+        encodedPositions.has(position) ||
+        encodedText.charAt(position) !== defaultText.charAt(position)
+      ) {
+        continue;
+      }
+
+      // Replace the character at this position with a random character
+      const chars = encodedText.split("");
+      chars[position] = getRandomCharacter();
+      encodedText = chars.join("");
+
+      // Mark this position as encoded
+      encodedPositions.add(position);
+      encodedCount++;
+    }
+
+    return encodedText;
+  };
+
   // this hook will call the onFinish callback if one was supplied
   useEffect(() => {
     if (isDone) {
@@ -233,14 +302,15 @@ export default function Ciph3rText({
         switch (action) {
           case "decode":
             return decodeText(previousText);
+          case "encode":
+            return encodeText(previousText);
           case "transform":
             return transformText(previousText);
-          default:
-            return previousText;
         }
       });
     },
-    action === "decode" || action === "transform"
+    // Run the interval if the action is one of the supported types and we're not done
+    ["decode", "transform", "encode"].includes(action)
       ? !isDone
         ? iterationSpeed
         : null
