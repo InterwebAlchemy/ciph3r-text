@@ -21,8 +21,15 @@
     "url": "https://github.com/InterwebAlchemy/ciph3r-text/issues"
   },
   "homepage": "https://github.com/InterwebAlchemy/ciph3r-text/",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.umd.js",
+      "import": "./dist/index.es.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "files": [
     "dist/index.js",
@@ -40,12 +47,14 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "prebuild": "npm run clean",
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "vite build",
+    "dev": "vite",
     "lint": "bun exec prettier . --check",
     "lint:fix": "bun exec prettier . --write",
     "pretest": "bun run lint",
-    "prepare": "is-ci || husky"
+    "prepare": "is-ci || husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "lint-staged": {
     "package.json": "scriptlint --fix",
@@ -56,22 +65,36 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "eslint": "^9.21.0",
-    "eslint-config-love": "^118.0.0",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.5",
     "@commitlint/config-conventional": "^19.7.1",
+    "@storybook/addon-essentials": "^8.6.3",
+    "@storybook/addon-interactions": "^8.6.3",
+    "@storybook/addon-onboarding": "^8.6.3",
+    "@storybook/blocks": "^8.6.3",
+    "@storybook/react": "^8.6.3",
+    "@storybook/react-vite": "^8.6.3",
+    "@storybook/test": "^8.6.3",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "eslint": "^9.21.0",
+    "eslint-config-love": "^118.0.0",
+    "eslint-plugin-storybook": "^0.11.3",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.2",
     "rimraf": "^6.0.1",
-    "rollup": "^4.34.9",
-    "rollup-plugin-typescript": "^1.0.1",
     "scriptlint": "^3.0.0",
-    "typescript": "latest"
+    "storybook": "^8.6.3",
+    "typescript": "latest",
+    "vite": "^6.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

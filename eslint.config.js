@@ -9,6 +9,7 @@ export default [
       "**/dist/**",
       "**/build/**",
       "commitlint.config.js",
+      ".storybook/**",
     ],
   },
 ];

@@ -20,7 +20,7 @@ export const randomizeText = (
   text
     .split("")
     .map(() => getRandomCharacter(characters))
-    .join();
+    .join("");
 
 /**
  * Gets a random character from a string
