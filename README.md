@@ -35,14 +35,15 @@ Render the Component:
 
 There are some configuration options you can use:
 
-| **Property**     | **Description**                                                                                 | **Type**      | **Default**                |
-| ---------------- | ----------------------------------------------------------------------------------------------- | ------------- | -------------------------- | ------------- | -------- |
-| `defaultText`    | the text to display during server rendering, after decoding, or before encoding or transforming | `string`      | `undefined`                |
-| `action`         | controls whether the text is `encoded`, `decoded`, or `transformed`                             | `"encode"` \\ | `"decode"` \\              | `"transform"` | `decode` |
-| `targetText`     | the text to transform into when using `action="transform"`                                      | string        | `undefined`                |
-| `onFinish`       | callback to execute when the `defaultText` has ben fully decoded, encoded, or transformed       | `() => {}`    | `undefined`                |
-| `iterationSpeed` | how frequently the logic to scramble characters executes                                        | `any`         | `120`; `150` (`transform`) |
-| `maxIterations`  | how many times the logic to scramble/unscramble characters can run                              | `any`         | `36`; `54` (`transform`)   |
+<!-- prettier-ignore -->
+| **Property** | **Description** | **Type** | **Default** |
+| -----------  | --------------- | -------- | ----------- |
+| `defaultText` **required** | the text to display during server rendering, after decoding, or before encoding or transforming | `string` | `undefined` |
+| `action` | controls whether the text is `encoded`, `decoded`, or `transformed` | `"encode"` | `"decode"`, `"endcode"`, or `"transform"` |
+| `targetText` *required if `action="transform"`* | the text to transform into when using `action="transform"` | `string` | `undefined` |
+| `onFinish` | callback to execute when the `defaultText` has ben fully decoded, encoded, or transformed | `() => {}` | `undefined` |
+| `iterationSpeed` | how frequently the logic to scramble characters executes | `number` | `120`; `150` (`transform`) |
+| `maxIterations` | how many times the logic to scramble/unscramble characters can run | `number` | `36`; `54` (`transform`) |
 
 ## Examples
 
