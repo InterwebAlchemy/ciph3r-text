@@ -12,7 +12,7 @@ Install the package:
 
 ```sh
 # use npm, bun, yarn, pnpm, etc.
-npm install @InterwebAlchemy/ciph3r-text
+npm install @interwebalchemy/ciph3r-text
 ```
 
 ```
@@ -22,7 +22,7 @@ bun add @InterwebAlchemy/ciph3r-text
 Import the package:
 
 ```tsx
-import Ciph3rText from "@InterwebAlchemy/ciph3r-text";
+import Ciph3rText from "@interwebalchemy/ciph3r-text";
 ```
 
 Render the Component:

@@ -76,16 +76,14 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^28.0.2",
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "rollup": "^4.34.9",
-    "rollup-plugin-dts": "^6.1.1",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.5",
     "@commitlint/config-conventional": "^19.7.1",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@storybook/addon-essentials": "^8.6.3",
     "@storybook/addon-interactions": "^8.6.3",
     "@storybook/addon-onboarding": "^8.6.3",
@@ -103,6 +101,8 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.2",
     "rimraf": "^6.0.1",
+    "rollup": "^4.34.9",
+    "rollup-plugin-dts": "^6.1.1",
     "scriptlint": "^3.0.0",
     "storybook": "^8.6.3",
     "typescript": "latest",
