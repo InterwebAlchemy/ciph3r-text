@@ -37,6 +37,9 @@ jobs:
       # - name: Run Tests
       #   run: bun test
 
+      - name: Build
+        run: bun run build
+
       - name: Semantic Release
         if: github.ref == 'refs/heads/main'
         uses: cycjimmy/semantic-release-action@v2
