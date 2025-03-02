@@ -10,11 +10,6 @@ export default [
     input: "src/Ciph3rText/index.tsx",
     output: [
       {
-        file: pkg.main,
-        format: "cjs",
-        sourcemap: true,
-      },
-      {
         file: pkg.module,
         format: "esm",
         sourcemap: true,

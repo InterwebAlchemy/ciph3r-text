@@ -1,3 +1,4 @@
+import { plugin } from "typescript-eslint";
 import love from "eslint-config-love";
 
 export default [
@@ -9,9 +10,23 @@ export default [
       "**/dist/**",
       "**/build/**",
       ".storybook/**",
+      "stories/**",
       "commitlint.config.js",
       "rollup.config.mjs",
       "eslint.config.js",
     ],
+  },
+  {
+    plugins: {
+      "@typescript-eslint": plugin,
+    },
+    rules: {
+      "@typescript-eslint/no-magic-numbers": [
+        "error",
+        {
+          ignore: [-1, 0, 1],
+        },
+      ],
+    },
   },
 ];

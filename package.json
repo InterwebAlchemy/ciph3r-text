@@ -1,7 +1,7 @@
 {
   "name": "@interwebalchemy/ciph3r-text",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A React component for visually encoding and decoding text.",
   "license": "MIT",
   "engines": {
@@ -100,7 +100,8 @@
     "rimraf": "^6.0.1",
     "scriptlint": "^3.0.0",
     "storybook": "^8.6.3",
-    "typescript": "latest"
+    "typescript": "latest",
+    "typescript-eslint": "^8.25.0"
   },
   "eslintConfig": {
     "extends": [

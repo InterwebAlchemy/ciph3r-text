@@ -16,13 +16,11 @@ const meta: Meta<typeof Ciph3rText> = {
     iterationSpeed: {
       control: "number",
       defaultValue: DEFAULT_SPEED,
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- this is a story
       min: 1,
     },
     maxIterations: {
       control: "number",
       defaultValue: DEFAULT_MAX_ITERATIONS,
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- this is a story
       min: 1,
     },
     targetText: {
@@ -67,10 +65,18 @@ export const Transform: Story = {
   },
 };
 
+export const TransformSameText: Story = {
+  args: {
+    ...Primary.args,
+    action: "transform",
+    targetText: "Hello, world!",
+    defaultText: "Hello, world!",
+  },
+};
+
 export const IterationSpeed: Story = {
   args: {
     ...Primary.args,
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- this is a story
     iterationSpeed: 300,
   },
 };
@@ -80,7 +86,6 @@ export const MaxIterations: Story = {
     ...Primary.args,
     defaultText:
       "This is a much longer string that we're going to use to make it easier to see that the max iterations can go for quite a while with longer texts.",
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- this is a story
     maxIterations: 1000,
   },
 };
@@ -92,5 +97,13 @@ export const OnFinishCallback: Story = {
       // eslint-disable-next-line no-alert -- this is a story
       alert("Finished!");
     },
+  },
+};
+
+export const TransformNoTargetText: Story = {
+  args: {
+    ...Primary.args,
+    action: "transform",
+    targetText: "",
   },
 };

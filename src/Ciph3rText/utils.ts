@@ -2,6 +2,12 @@ import {
   BASE_PRINTABLE_CHARACTERS,
   DEFAULT_MAX_ITERATIONS,
   DEFAULT_REVEAL_PROBABILITY,
+  MAXIMUM_CHARACTERS_TO_REMOVE,
+  MAXIMUM_CHARACTERS_TO_REVEAL,
+  MINIMUM_CHARACTERS_TO_REMOVE,
+  MINIMUM_CHARACTERS_TO_REVEAL,
+  MINIMUM_CHARACTERS_TO_ADD,
+  MAXIMUM_CHARACTERS_TO_ADD,
 } from "./constants";
 
 import type { Ciph3rTextRevealCharactersProps } from "./types";
@@ -83,4 +89,111 @@ export const revealCharacters = ({
     .join("");
 
   return transformedText;
+};
+
+/**
+ * Calculates the number of characters to encode based on the length of the text
+ * number of characters to reveal
+ *
+ * @remarks
+ * If the maximum number of characters to reveal is greater than or equal to the
+ * length of the text minus one, the minimum number of characters to reveal will
+ * be returned. Otherwise, a random number between the mininum and maximum number
+ * of characters to reveal will be returned.
+ *
+ * @param defaultText - The default text
+ * @param weight - A weight to bias the number of characters to reveal
+ * @param minCharactersToReveal - The minimum number of characters to reveal
+ * @param maxCharactersToReveal - The maximum number of characters to reveal
+ * @returns The number of characters to encode
+ */
+export const calculateNumberOfCharactersToEncode = (
+  defaultText: string,
+  weight = 1,
+  minCharactersToReveal = MINIMUM_CHARACTERS_TO_REVEAL,
+  maxCharactersToReveal = MAXIMUM_CHARACTERS_TO_REVEAL,
+): number => {
+  if (maxCharactersToReveal >= defaultText.length - 1) {
+    return minCharactersToReveal;
+  }
+
+  return (
+    Math.floor(Math.random() * Math.floor(maxCharactersToReveal * weight)) +
+    minCharactersToReveal
+  );
+};
+
+/**
+ * Calculates the number of characters to reveal based on the length of the text
+ *
+ * @param defaultText - The default text
+ * @param weight - A weight to bias the number of characters to reveal
+ * @param minCharactersToReveal - The minimum number of characters to reveal
+ * @param maxCharactersToReveal - The maximum number of characters to reveal
+ * @returns The number of characters to reveal
+ */
+export const calculateNumberOfCharactersToReveal = (
+  defaultText: string,
+  weight = 1,
+  minCharactersToReveal = MINIMUM_CHARACTERS_TO_REVEAL,
+  maxCharactersToReveal = MAXIMUM_CHARACTERS_TO_REVEAL,
+): number => {
+  if (maxCharactersToReveal >= defaultText.length - 1) {
+    return minCharactersToReveal;
+  }
+
+  return (
+    Math.floor(Math.random() * Math.floor(maxCharactersToReveal * weight)) +
+    minCharactersToReveal
+  );
+};
+
+/**
+ * Calculates the number of characters to remove based on the length of the text
+ *
+ * @param defaultText - The default text
+ * @param weight - A weight to bias the number of characters to remove
+ * @param minCharactersToRemove - The minimum number of characters to remove
+ * @param maxCharactersToRemove - The maximum number of characters to remove
+ * @returns The number of characters to remove
+ */
+export const calculateNumberOfCharactersToRemove = (
+  defaultText: string,
+  weight = 1,
+  minCharactersToRemove = MINIMUM_CHARACTERS_TO_REMOVE,
+  maxCharactersToRemove = MAXIMUM_CHARACTERS_TO_REMOVE,
+): number => {
+  if (maxCharactersToRemove >= defaultText.length - 1) {
+    return minCharactersToRemove;
+  }
+
+  return (
+    Math.floor(Math.random() * Math.floor(maxCharactersToRemove * weight)) +
+    minCharactersToRemove
+  );
+};
+
+/**
+ * Calculates the number of characters to add based on the length of the text
+ *
+ * @param defaultText - The default text
+ * @param weight - A weight to bias the number of characters to add
+ * @param minCharactersToAdd - The minimum number of characters to add
+ * @param maxCharactersToAdd - The maximum number of characters to add
+ * @returns The number of characters to add
+ */
+export const calculateNumberOfCharactersToAdd = (
+  defaultText: string,
+  weight = 1,
+  minCharactersToAdd = MINIMUM_CHARACTERS_TO_ADD,
+  maxCharactersToAdd = MAXIMUM_CHARACTERS_TO_ADD,
+): number => {
+  if (maxCharactersToAdd >= defaultText.length - 1) {
+    return minCharactersToAdd;
+  }
+
+  return (
+    Math.floor(Math.random() * Math.floor(maxCharactersToAdd * weight)) +
+    minCharactersToAdd
+  );
 };

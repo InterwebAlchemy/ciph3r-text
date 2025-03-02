@@ -1,19 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useInterval, useIsClient } from "usehooks-ts";
 
-import {
-  DEFAULT_MAX_ITERATIONS,
-  DEFAULT_SPEED,
-  MAXIMUM_CHARACTERS_TO_REVEAL,
-  MINIMUM_CHARACTERS_TO_REVEAL,
-  MAXIMUM_CHARACTERS_TO_REMOVE,
-  MINIMUM_CHARACTERS_TO_REMOVE,
-  MAXIMUM_CHARACTERS_TO_ADD,
-  MINIMUM_CHARACTERS_TO_ADD,
-} from "./constants";
+import { DEFAULT_MAX_ITERATIONS, DEFAULT_SPEED } from "./constants";
 
 import type { Ciph3rTextProps } from "./types";
-import { getRandomCharacter, randomizeText, revealCharacters } from "./utils";
+import {
+  calculateNumberOfCharactersToAdd,
+  calculateNumberOfCharactersToEncode,
+  calculateNumberOfCharactersToRemove,
+  calculateNumberOfCharactersToReveal,
+  getRandomCharacter,
+  randomizeText,
+  revealCharacters,
+} from "./utils";
 
 /**
  * Ciph3rText is a React component that transforms text between encode, decode, and transform actions.
@@ -27,16 +26,15 @@ import { getRandomCharacter, randomizeText, revealCharacters } from "./utils";
  * @param props.targetText - The target text to transform to when props.action is "transform"
  * @returns A React.Fragment animating the transformed text
  */
-
-// eslint-disable-next-line complexity -- due to React Component and hooks being kind of complex
-export default function Ciph3rText({
+// eslint-disable-next-line complexity -- this is a complex component
+const Ciph3rText = ({
   defaultText,
   onFinish,
   iterationSpeed: iterationSpeedProp,
   maxIterations: maxIterationsProp,
   targetText = "",
   action = "decode",
-}: React.PropsWithoutRef<Ciph3rTextProps>): React.ReactElement {
+}: React.PropsWithoutRef<Ciph3rTextProps>): React.JSX.Element => {
   const isClient = useIsClient();
 
   // throw an error if the default text is not provided
@@ -76,17 +74,14 @@ export default function Ciph3rText({
    *
    * @returns The formatted text
    */
-  const formatDefaultText = useCallback(
-    (): string =>
-      action === "decode" ? randomizeText(defaultText) : defaultText,
-    [action, defaultText],
-  );
+  const formatDefaultText = (text: string): string =>
+    action === "decode" ? randomizeText(text) : text;
 
   const [isDone, setIsDone] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- counters start at 0
   const [iterations, setIterations] = useState(0);
-  const [formattedText, setFormattedText] =
-    useState<string>(formatDefaultText());
+  const [formattedText, setFormattedText] = useState<string>(
+    formatDefaultText(defaultText),
+  );
 
   /**
    * Converts input text to target text by padding with random characters or deleting
@@ -112,19 +107,10 @@ export default function Ciph3rText({
     if (text.length > targetText.length) {
       // remove a random number of characters less than the difference between the text lengths
       // from the end of the string; clamped between 1 and 5
-      const maxNumberOfCharactersToRemove = Math.min(
-        Math.max(MINIMUM_CHARACTERS_TO_REMOVE, text.length - targetText.length),
-        MAXIMUM_CHARACTERS_TO_REMOVE,
+      let numberOfCharactersToRemove = calculateNumberOfCharactersToRemove(
+        defaultText,
+        weight,
       );
-
-      // apply the weight to the max number of characters to remove
-      const weightedMaxNumberOfCharactersToRemove = Math.floor(
-        maxNumberOfCharactersToRemove * weight,
-      );
-
-      let numberOfCharactersToRemove =
-        Math.floor(Math.random() * weightedMaxNumberOfCharactersToRemove) +
-        MINIMUM_CHARACTERS_TO_REMOVE;
 
       // fully cut the string if we have reached the max iterations
       if (iterations >= maxIterations) {
@@ -133,27 +119,16 @@ export default function Ciph3rText({
 
       // remove the characters from the end of the string
       transformedText = transformedText.slice(
-        // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1
         0,
-        // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1
         -1 * numberOfCharactersToRemove,
       );
     } else if (text.length < targetText.length) {
       // add a random number of characters less than the difference between the text lengths
       // to the end of the string; clamped between 1 and 5
-      const maxNumberOfCharactersToAdd = Math.min(
-        Math.max(MINIMUM_CHARACTERS_TO_ADD, targetText.length - text.length),
-        MAXIMUM_CHARACTERS_TO_ADD,
+      let numberOfCharactersToAdd = calculateNumberOfCharactersToAdd(
+        defaultText,
+        weight,
       );
-
-      // apply the weight to the max number of characters to add
-      const weightedMaxNumberOfCharactersToAdd = Math.floor(
-        maxNumberOfCharactersToAdd * weight,
-      );
-
-      let numberOfCharactersToAdd =
-        Math.floor(Math.random() * weightedMaxNumberOfCharactersToAdd) +
-        MINIMUM_CHARACTERS_TO_ADD;
 
       // fully pad the string if we have reached the max iterations
       if (iterations >= maxIterations) {
@@ -167,13 +142,9 @@ export default function Ciph3rText({
     }
 
     // choose random number of characters to reveal between 1 and 3
-    const numberOfCharactersToReveal =
-      Math.floor(Math.random() * MAXIMUM_CHARACTERS_TO_REVEAL) +
-      MINIMUM_CHARACTERS_TO_REVEAL;
-
-    // apply the weight to the number of characters to reveal
-    const weightedNumberOfCharactersToReveal = Math.floor(
-      numberOfCharactersToReveal * weight,
+    const numberOfCharactersToReveal = calculateNumberOfCharactersToReveal(
+      defaultText,
+      weight,
     );
 
     // Use the new revealCharacters utility function
@@ -181,7 +152,7 @@ export default function Ciph3rText({
       action,
       sourceText: transformedText,
       targetText,
-      maxCharactersToReveal: weightedNumberOfCharactersToReveal,
+      maxCharactersToReveal: numberOfCharactersToReveal,
       currentIteration: iterations,
       maxIterations,
     });
@@ -200,10 +171,8 @@ export default function Ciph3rText({
       return text;
     }
 
-    // choose random number of characters to reveal between 1 and 5
     const numberOfCharactersToReveal =
-      Math.floor(Math.random() * MAXIMUM_CHARACTERS_TO_REVEAL) +
-      MINIMUM_CHARACTERS_TO_REVEAL;
+      calculateNumberOfCharactersToReveal(defaultText);
 
     // Use the new revealCharacters utility function
     return revealCharacters({
@@ -237,10 +206,8 @@ export default function Ciph3rText({
       }
     }
 
-    // choose random number of characters to encode between 1 and 5
     const numberOfCharactersToEncode =
-      Math.floor(Math.random() * MAXIMUM_CHARACTERS_TO_REVEAL) +
-      MINIMUM_CHARACTERS_TO_REVEAL;
+      calculateNumberOfCharactersToEncode(defaultText);
 
     // Create a new string to hold our encoded text
     let encodedText = text;
@@ -285,6 +252,12 @@ export default function Ciph3rText({
     return encodedText;
   };
 
+  useEffect(() => {
+    setIsDone(false);
+    setIterations(0);
+    setFormattedText(formatDefaultText(defaultText));
+  }, [defaultText]);
+
   // this hook will call the onFinish callback if one was supplied
   useEffect(() => {
     if (isDone) {
@@ -296,7 +269,7 @@ export default function Ciph3rText({
   // this interval will run while we're animating the text transformation
   useInterval(
     () => {
-      setIterations((previousIterations) => previousIterations++);
+      setIterations((previousIterations) => previousIterations + 1);
 
       setFormattedText((previousText) => {
         switch (action) {
@@ -311,7 +284,7 @@ export default function Ciph3rText({
     },
     // Run the interval if the action is one of the supported types and we're not done
     ["decode", "transform", "encode"].includes(action)
-      ? !isDone
+      ? !isDone && (action !== "transform" || defaultText !== targetText)
         ? iterationSpeed
         : null
       : null,
@@ -336,4 +309,6 @@ export default function Ciph3rText({
           : defaultText}
     </React.Fragment>
   );
-}
+};
+
+export default Ciph3rText;

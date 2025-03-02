@@ -1,7 +1,9 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx", "./environment.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
     "dist/**/*",
+    "stories/**/*",
+    ".storybook/**/*",
     "eslint.config.js",
     "rollup.config.mjs",
     "commitlint.config.js"
