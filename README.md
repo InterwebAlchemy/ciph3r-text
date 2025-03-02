@@ -1,5 +1,7 @@
 # Ciph3rText
 
+https://github.com/user-attachments/assets/5f66db83-ceb6-4625-a90b-f5615687e630
+
 A React Component that animates transforming a string of text:
 
 - `encode`: slowly scramble the text by replacing characters
