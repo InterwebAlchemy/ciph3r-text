@@ -1,18 +1,27 @@
 {
+  "include": ["src/**/*.ts", "src/**/*.tsx", "./environment.d.ts"],
+  "exclude": [
+    "dist/**/*",
+    "eslint.config.js",
+    "rollup.config.mjs",
+    "commitlint.config.js"
+  ],
   "compilerOptions": {
     // Enable latest features
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "react-jsx",
+    "jsx": "react",
     "allowJs": true,
 
     // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "emitDeclarationOnly": true,
 
     // Best practices
     "strict": true,

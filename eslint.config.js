@@ -8,8 +8,10 @@ export default [
       "**/node_modules/**",
       "**/dist/**",
       "**/build/**",
-      "commitlint.config.js",
       ".storybook/**",
+      "commitlint.config.js",
+      "rollup.config.mjs",
+      "eslint.config.js",
     ],
   },
 ];

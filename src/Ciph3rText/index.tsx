@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInterval, useIsClient } from "usehooks-ts";
 
 import {
@@ -28,12 +28,12 @@ import { getRandomCharacter, randomizeText, revealCharacters } from "./utils";
  * @returns A React.Fragment animating the transformed text
  */
 
-/* eslint-disable-next-line complexity -- due to React Component and hooks being kind of complex */
+// eslint-disable-next-line complexity -- due to React Component and hooks being kind of complex
 export default function Ciph3rText({
   defaultText,
+  onFinish,
   iterationSpeed: iterationSpeedProp,
   maxIterations: maxIterationsProp,
-  onFinish,
   targetText = "",
   action = "decode",
 }: React.PropsWithoutRef<Ciph3rTextProps>): React.ReactElement {
@@ -83,7 +83,7 @@ export default function Ciph3rText({
   );
 
   const [isDone, setIsDone] = useState(false);
-  /* eslint-disable-next-line @typescript-eslint/no-magic-numbers -- counters start at 0 */
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- counters start at 0
   const [iterations, setIterations] = useState(0);
   const [formattedText, setFormattedText] =
     useState<string>(formatDefaultText());
@@ -133,9 +133,9 @@ export default function Ciph3rText({
 
       // remove the characters from the end of the string
       transformedText = transformedText.slice(
-        /* eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1 */
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1
         0,
-        /* eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1 */
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- start and end of string are 0 and -1
         -1 * numberOfCharactersToRemove,
       );
     } else if (text.length < targetText.length) {
@@ -328,12 +328,12 @@ export default function Ciph3rText({
    * @returns The rendered text as a React.Fragment
    */
   return (
-    <>
+    <React.Fragment>
       {isClient
         ? formattedText
         : action === "transform"
           ? targetText
           : defaultText}
-    </>
+    </React.Fragment>
   );
 }

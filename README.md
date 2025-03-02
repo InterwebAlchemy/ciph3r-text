@@ -11,8 +11,12 @@ A React Component that animates transforming a string of text:
 Install the package:
 
 ```sh
-# use npm, bun, yarn, pnpm ,etc.
+# use npm, bun, yarn, pnpm, etc.
 npm install @InterwebAlchemy/ciph3r-text
+```
+
+```
+bun add @InterwebAlchemy/ciph3r-text
 ```
 
 Import the package:
@@ -30,6 +34,15 @@ Render the Component:
 ## Configuration
 
 There are some configuration options you can use:
+
+| **Property**     | **Description**                                                                                 | **Type**      | **Default**                |
+| ---------------- | ----------------------------------------------------------------------------------------------- | ------------- | -------------------------- | ------------- | -------- |
+| `defaultText`    | the text to display during server rendering, after decoding, or before encoding or transforming | `string`      | `undefined`                |
+| `action`         | controls whether the text is `encoded`, `decoded`, or `transformed`                             | `"encode"` \\ | `"decode"` \\              | `"transform"` | `decode` |
+| `targetText`     | the text to transform into when using `action="transform"`                                      | string        | `undefined`                |
+| `onFinish`       | callback to execute when the `defaultText` has ben fully decoded, encoded, or transformed       | `() => {}`    | `undefined`                |
+| `iterationSpeed` | how frequently the logic to scramble characters executes                                        | `any`         | `120`; `150` (`transform`) |
+| `maxIterations`  | how many times the logic to scramble/unscramble characters can run                              | `any`         | `36`; `54` (`transform`)   |
 
 ## Examples
 

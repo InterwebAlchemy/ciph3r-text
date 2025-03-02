@@ -21,19 +21,18 @@
     "url": "https://github.com/InterwebAlchemy/ciph3r-text/issues"
   },
   "homepage": "https://github.com/InterwebAlchemy/ciph3r-text/",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.umd.js",
-      "import": "./dist/index.es.js"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "types": "dist/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/index.d.ts"
+    "dist/types"
   ],
   "keywords": [
     "react-component",
@@ -46,11 +45,14 @@
   ],
   "scripts": {
     "clean": "rimraf ./dist",
-    "prebuild": "npm run clean",
-    "build": "vite build",
-    "dev": "vite",
-    "lint": "bun exec prettier . --check",
+    "prebuild": "bun run lint:types && bun run clean",
+    "build": "bun run build:rollup",
+    "build:rollup": "rollup -c",
+    "dev": "bun run storybook",
+    "lint:eslint": "eslint .",
+    "lint:format": "bun exec prettier . --check",
     "lint:fix": "bun exec prettier . --write",
+    "lint:types": "tsc --noEmit",
     "pretest": "bun run lint",
     "prepare": "is-ci || husky",
     "storybook": "storybook dev -p 6006",
@@ -58,6 +60,10 @@
   },
   "lint-staged": {
     "package.json": "scriptlint --fix",
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write --ignore-unknown",
+      "eslint"
+    ],
     "**/*": "prettier --write --ignore-unknown"
   },
   "peerDependencies": {
@@ -65,6 +71,11 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.34.9",
+    "rollup-plugin-dts": "^6.1.1",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
@@ -89,8 +100,7 @@
     "rimraf": "^6.0.1",
     "scriptlint": "^3.0.0",
     "storybook": "^8.6.3",
-    "typescript": "latest",
-    "vite": "^6.2.0"
+    "typescript": "latest"
   },
   "eslintConfig": {
     "extends": [
