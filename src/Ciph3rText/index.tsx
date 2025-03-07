@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useInterval, useIsClient } from "usehooks-ts";
 
-import { DEFAULT_MAX_ITERATIONS, DEFAULT_SPEED } from "./constants";
+import {
+  ACTIONS,
+  BASE_PRINTABLE_CHARACTERS,
+  CURSED_CHARACTERS,
+  DEFAULT_MAX_ITERATIONS,
+  DEFAULT_SPEED,
+  MATRIX_CHARACTERS,
+} from "./constants";
 
 import type { Ciph3rTextProps } from "./types";
 import {
@@ -9,9 +16,11 @@ import {
   calculateNumberOfCharactersToEncode,
   calculateNumberOfCharactersToRemove,
   calculateNumberOfCharactersToReveal,
+  calculateNumberOfCharactersToScramble,
   getRandomCharacter,
   randomizeText,
   revealCharacters,
+  scrambleCharacters,
 } from "./utils";
 
 /**
@@ -34,8 +43,37 @@ const Ciph3rText = ({
   maxIterations: maxIterationsProp,
   targetText = "",
   action = "decode",
+  useMatrixCharacterSet = false,
+  includeCursedCharacters = false,
+  additionalCharactersToInclude = "",
 }: React.PropsWithoutRef<Ciph3rTextProps>): React.JSX.Element => {
   const isClient = useIsClient();
+
+  const characterSet = useMemo(() => {
+    let characters = BASE_PRINTABLE_CHARACTERS;
+
+    if (useMatrixCharacterSet) {
+      characters = Object.values(MATRIX_CHARACTERS).reduce(
+        (acc, set) => acc + set,
+        "",
+      );
+    }
+
+    if (includeCursedCharacters) {
+      characters += Object.values(CURSED_CHARACTERS).reduce(
+        (acc, set) => acc + set,
+        "",
+      );
+    }
+
+    characters += additionalCharactersToInclude;
+
+    return characters;
+  }, [
+    useMatrixCharacterSet,
+    includeCursedCharacters,
+    additionalCharactersToInclude,
+  ]);
 
   // throw an error if the default text is not provided
   if (typeof defaultText === "undefined") {
@@ -75,13 +113,31 @@ const Ciph3rText = ({
    * @returns The formatted text
    */
   const formatDefaultText = (text: string): string =>
-    action === "decode" ? randomizeText(text) : text;
+    action === "decode" ? randomizeText(text, characterSet) : text;
 
   const [isDone, setIsDone] = useState(false);
   const [iterations, setIterations] = useState(0);
   const [formattedText, setFormattedText] = useState<string>(
     formatDefaultText(defaultText),
   );
+
+  /**
+   * Scrambles the input text by randomly shuffling the characters
+   *
+   * @param text The input text to scramble
+   * @returns The scrambled text
+   */
+  const scrambleText = (text: string): string => {
+    const numberOfCharactersToScramble =
+      calculateNumberOfCharactersToScramble(defaultText);
+
+    // Use the new revealCharacters utility function
+    return scrambleCharacters({
+      text,
+      characterSet,
+      maxCharactersToScramble: numberOfCharactersToScramble,
+    });
+  };
 
   /**
    * Converts input text to target text by padding with random characters or deleting
@@ -137,7 +193,7 @@ const Ciph3rText = ({
 
       // add the characters to the end of the string
       for (let i = 0; i < numberOfCharactersToAdd; i++) {
-        transformedText += getRandomCharacter();
+        transformedText += getRandomCharacter(characterSet);
       }
     }
 
@@ -193,7 +249,10 @@ const Ciph3rText = ({
    */
   const encodeText = (text: string): string => {
     // If the text is completely randomized, we're done
-    if (text === randomizeText(defaultText) || iterations >= maxIterations) {
+    if (
+      text === randomizeText(defaultText, characterSet) ||
+      iterations >= maxIterations
+    ) {
       // Check if text is completely encoded (no character matches defaultText)
       const isFullyEncoded = text
         .split("")
@@ -202,7 +261,7 @@ const Ciph3rText = ({
       if (isFullyEncoded || iterations >= maxIterations) {
         setIsDone(true);
         // If we've hit max iterations or are fully encoded, return a fully randomized text
-        return randomizeText(defaultText);
+        return randomizeText(defaultText, characterSet);
       }
     }
 
@@ -241,7 +300,7 @@ const Ciph3rText = ({
 
       // Replace the character at this position with a random character
       const chars = encodedText.split("");
-      chars[position] = getRandomCharacter();
+      chars[position] = getRandomCharacter(characterSet);
       encodedText = chars.join("");
 
       // Mark this position as encoded
@@ -279,11 +338,14 @@ const Ciph3rText = ({
             return encodeText(previousText);
           case "transform":
             return transformText(previousText);
+          case "scramble":
+            return scrambleText(previousText);
         }
       });
     },
+
     // Run the interval if the action is one of the supported types and we're not done
-    ["decode", "transform", "encode"].includes(action)
+    ACTIONS.includes(action)
       ? !isDone && (action !== "transform" || defaultText !== targetText)
         ? iterationSpeed
         : null

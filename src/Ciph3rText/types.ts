@@ -1,4 +1,6 @@
-export type Ciph3rTextAction = "encode" | "decode" | "transform";
+import type { ACTIONS } from "./constants";
+
+export type Ciph3rTextAction = (typeof ACTIONS)[number];
 
 export interface Ciph3rTextProps {
   defaultText: string;
@@ -7,6 +9,9 @@ export interface Ciph3rTextProps {
   iterationSpeed?: number;
   maxIterations?: number;
   onFinish?: () => void;
+  additionalCharactersToInclude?: string;
+  includeCursedCharacters?: boolean;
+  useMatrixCharacterSet?: boolean;
 }
 
 export interface Ciph3rTextRevealCharactersProps {
@@ -17,4 +22,10 @@ export interface Ciph3rTextRevealCharactersProps {
   currentIteration: number;
   maxIterations?: number;
   revealProbability?: number;
+}
+
+export interface Ciph3rTextScrambleCharactersProps {
+  text: string;
+  characterSet: string;
+  maxCharactersToScramble: number;
 }

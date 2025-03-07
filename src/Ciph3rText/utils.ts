@@ -10,7 +10,10 @@ import {
   MAXIMUM_CHARACTERS_TO_ADD,
 } from "./constants";
 
-import type { Ciph3rTextRevealCharactersProps } from "./types";
+import type {
+  Ciph3rTextRevealCharactersProps,
+  Ciph3rTextScrambleCharactersProps,
+} from "./types";
 
 /**
  * Randomizes the characters in a string
@@ -89,6 +92,39 @@ export const revealCharacters = ({
     .join("");
 
   return transformedText;
+};
+
+/**
+ * Scrambles the characters in a string
+ *
+ * @param text - The text to scramble
+ * @param maxCharactersToScramble - The maximum number of characters to scramble
+ * @returns The scrambled text
+ */
+export const scrambleCharacters = ({
+  text,
+  characterSet,
+  maxCharactersToScramble,
+}: Ciph3rTextScrambleCharactersProps): string => {
+  const characters = text.split("");
+
+  for (let i = 0; i < maxCharactersToScramble; i++) {
+    // choose a randomish index
+    const randomIndex = Math.floor(Math.random() * characters.length);
+
+    const [temp, temp2] = [characters[i], characters[randomIndex]];
+
+    // introduce some random characters, too
+    if (Math.random() > DEFAULT_REVEAL_PROBABILITY) {
+      characters[i] = getRandomCharacter(characterSet);
+      characters[randomIndex] = getRandomCharacter(characterSet);
+    } else {
+      characters[i] = temp2;
+      characters[randomIndex] = temp;
+    }
+  }
+
+  return characters.join("");
 };
 
 /**
@@ -197,3 +233,16 @@ export const calculateNumberOfCharactersToAdd = (
     minCharactersToAdd
   );
 };
+
+/**
+ * Calculates the number of characters to scramble based on the length of the text
+ *
+ * @param defaultText - The default text
+ * @returns The number of characters to scramble
+ */
+export const calculateNumberOfCharactersToScramble = (
+  defaultText: string,
+): number =>
+  Math.floor(
+    Math.random() * Math.floor(defaultText.length * DEFAULT_REVEAL_PROBABILITY),
+  );

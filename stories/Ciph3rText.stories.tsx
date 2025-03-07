@@ -11,7 +11,7 @@ const meta: Meta<typeof Ciph3rText> = {
   argTypes: {
     action: {
       control: "select",
-      options: ["decode", "encode", "transform"],
+      options: ["decode", "encode", "transform", "scramble"],
     },
     iterationSpeed: {
       control: "number",
@@ -30,6 +30,18 @@ const meta: Meta<typeof Ciph3rText> = {
       control: "text",
       defaultValue: "Hello, world!",
     },
+    useMatrixCharacterSet: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    includeCursedCharacters: {
+      control: "boolean",
+      defaultValue: false,
+    },
+    additionalCharactersToInclude: {
+      control: "text",
+      defaultValue: "",
+    },
   },
 };
 
@@ -40,6 +52,42 @@ type Story = StoryObj<typeof Ciph3rText>;
 export const Primary: Story = {
   args: {
     defaultText: "Hello, world!",
+  },
+};
+
+export const Scramble: Story = {
+  args: {
+    ...Primary.args,
+    action: "scramble",
+    defaultText: "Hello, world!",
+  },
+};
+
+export const ScrambleWithMatrixCharacters: Story = {
+  args: {
+    ...Primary.args,
+    action: "scramble",
+    defaultText: "Hello, world!",
+    useMatrixCharacterSet: true,
+  },
+};
+
+export const ScrambleWithCursedCharacters: Story = {
+  args: {
+    ...Primary.args,
+    action: "scramble",
+    defaultText: "Hello, world!",
+    includeCursedCharacters: true,
+  },
+};
+
+export const ScrambleWithMatrixCharactersAndCursedCharacters: Story = {
+  args: {
+    ...Primary.args,
+    action: "scramble",
+    defaultText: "Hello, world!",
+    useMatrixCharacterSet: true,
+    includeCursedCharacters: true,
   },
 };
 
