@@ -1,6 +1,23 @@
 // TODO: Allow extending or overriding the base characters
 export const BASE_PRINTABLE_CHARACTERS = `!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~`;
 
+export const MATRIX_CHARACTERS = {
+  kanji: "日二 ",
+  katakana: "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍコソヤ",
+  numbers: "012345789",
+  roman: "ACDEFGHJKLMNPRSTUVWXY",
+  symbols: ':・."=*+-<>|$#&~?!^@¦╌¿£',
+  unknown: "çﾘｸƵツ",
+};
+
+export const CURSED_CHARACTERS = {
+  diacritic: "A̸̡̬̺͝B̶̨̬̟̉̈́C̸̪̙̣̒̎D̶͕̱̜̆͑̚͝E̶̜̞̳̽͐̔͜F̶̧̝̳̜̅̋͝Ģ̴̱͖͌H̴̻̩̪̰͆̒Ḯ̵̧̖̜͝J̴̗͚̝̈̓K̷̦͍͎̮̃͛͂͋L̶͙̦͉̉ͅM̶̢̀́͝N̶͕̣̕O̴̠̔͜Ṕ̶̘̱̀Q̷̡̻̼̩͗̌́R̴̞̼͑̅Ṡ̶̪̜T̵̳͎͑̅̀̿Ȕ̸̩͔̣͈̚V̸̩̹͝W̴̠͎̾̃Ẍ̵͓͙̯̱́Ÿ̶̗̼̙́͋̂Z̶̙̰̟̉͠",
+  blocks: "▒░",
+  symbols: "⏀⏁⏂⏃⏄⏅⏆⏇⏈⏉⏊⏋⏌⏍",
+};
+
+export const ACTIONS = ["encode", "decode", "transform", "scramble"] as const;
+
 export const DEFAULT_REVEAL_PROBABILITY = 0.5;
 
 export const MINIMUM_CHARACTERS_TO_REVEAL = 1;
@@ -18,14 +35,18 @@ export const BASE_SPEED = 120;
 export const TRANSFORM_ITERATION_MULTIPLIER = 1.5;
 export const TRANSFORM_SPEED_MULTIPLIER = 1.25;
 
+export const SCRAMBLE_SPEED_MODIFIER = 0.5;
+
 export const DEFAULT_MAX_ITERATIONS = {
   encode: BASE_MAX_ITERATIONS,
   decode: BASE_MAX_ITERATIONS,
   transform: BASE_MAX_ITERATIONS * TRANSFORM_ITERATION_MULTIPLIER,
+  scramble: Infinity,
 };
 
 export const DEFAULT_SPEED = {
   encode: BASE_SPEED,
   decode: BASE_SPEED,
   transform: BASE_SPEED * TRANSFORM_SPEED_MULTIPLIER,
+  scramble: BASE_SPEED * SCRAMBLE_SPEED_MODIFIER,
 };
