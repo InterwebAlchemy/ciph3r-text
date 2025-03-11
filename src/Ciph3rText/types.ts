@@ -9,9 +9,8 @@ export interface Ciph3rTextProps {
   iterationSpeed?: number;
   maxIterations?: number;
   onFinish?: () => void;
+  characters?: string;
   additionalCharactersToInclude?: string;
-  includeCursedCharacters?: boolean;
-  useMatrixCharacterSet?: boolean;
 }
 
 export interface Ciph3rTextRevealCharactersProps {

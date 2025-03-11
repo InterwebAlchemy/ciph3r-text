@@ -244,5 +244,7 @@ export const calculateNumberOfCharactersToScramble = (
   defaultText: string,
 ): number =>
   Math.floor(
-    Math.random() * Math.floor(defaultText.length * DEFAULT_REVEAL_PROBABILITY),
+    Math.random() *
+      Math.floor(defaultText.length * DEFAULT_REVEAL_PROBABILITY) +
+      MINIMUM_CHARACTERS_TO_REVEAL,
   );

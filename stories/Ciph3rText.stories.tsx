@@ -4,6 +4,7 @@ import Ciph3rText from "../src/Ciph3rText";
 import {
   DEFAULT_SPEED,
   DEFAULT_MAX_ITERATIONS,
+  BASE_PRINTABLE_CHARACTERS,
 } from "../src/Ciph3rText/constants";
 const meta: Meta<typeof Ciph3rText> = {
   component: Ciph3rText,
@@ -30,13 +31,9 @@ const meta: Meta<typeof Ciph3rText> = {
       control: "text",
       defaultValue: "Hello, world!",
     },
-    useMatrixCharacterSet: {
-      control: "boolean",
-      defaultValue: false,
-    },
-    includeCursedCharacters: {
-      control: "boolean",
-      defaultValue: false,
+    characters: {
+      control: "text",
+      defaultValue: BASE_PRINTABLE_CHARACTERS,
     },
     additionalCharactersToInclude: {
       control: "text",
@@ -63,31 +60,22 @@ export const Scramble: Story = {
   },
 };
 
-export const ScrambleWithMatrixCharacters: Story = {
+export const ScrambleWithAdditionalCharacters: Story = {
   args: {
     ...Primary.args,
     action: "scramble",
     defaultText: "Hello, world!",
-    useMatrixCharacterSet: true,
+    additionalCharactersToInclude: "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍコソヤ",
   },
 };
 
-export const ScrambleWithCursedCharacters: Story = {
+export const ScrambleWithAdditionalCharactersAndDefaultCharacters: Story = {
   args: {
     ...Primary.args,
     action: "scramble",
     defaultText: "Hello, world!",
-    includeCursedCharacters: true,
-  },
-};
-
-export const ScrambleWithMatrixCharactersAndCursedCharacters: Story = {
-  args: {
-    ...Primary.args,
-    action: "scramble",
-    defaultText: "Hello, world!",
-    useMatrixCharacterSet: true,
-    includeCursedCharacters: true,
+    characters: "ACDEFGHJKLMNPSTUVWX012345789",
+    additionalCharactersToInclude: "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍコソヤ",
   },
 };
 

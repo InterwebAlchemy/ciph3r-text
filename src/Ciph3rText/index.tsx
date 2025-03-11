@@ -4,13 +4,12 @@ import { useInterval, useIsClient } from "usehooks-ts";
 import {
   ACTIONS,
   BASE_PRINTABLE_CHARACTERS,
-  CURSED_CHARACTERS,
   DEFAULT_MAX_ITERATIONS,
   DEFAULT_SPEED,
-  MATRIX_CHARACTERS,
 } from "./constants";
 
 import type { Ciph3rTextProps } from "./types";
+
 import {
   calculateNumberOfCharactersToAdd,
   calculateNumberOfCharactersToEncode,
@@ -43,37 +42,19 @@ const Ciph3rText = ({
   maxIterations: maxIterationsProp,
   targetText = "",
   action = "decode",
-  useMatrixCharacterSet = false,
-  includeCursedCharacters = false,
+  characters = BASE_PRINTABLE_CHARACTERS,
   additionalCharactersToInclude = "",
-}: React.PropsWithoutRef<Ciph3rTextProps>): React.JSX.Element => {
+  ref = null,
+  ...restProps
+}: React.ComponentPropsWithRef<"span"> & Ciph3rTextProps): React.ReactElement<
+  React.ComponentPropsWithRef<"span">
+> => {
   const isClient = useIsClient();
 
-  const characterSet = useMemo(() => {
-    let characters = BASE_PRINTABLE_CHARACTERS;
-
-    if (useMatrixCharacterSet) {
-      characters = Object.values(MATRIX_CHARACTERS).reduce(
-        (acc, set) => acc + set,
-        "",
-      );
-    }
-
-    if (includeCursedCharacters) {
-      characters += Object.values(CURSED_CHARACTERS).reduce(
-        (acc, set) => acc + set,
-        "",
-      );
-    }
-
-    characters += additionalCharactersToInclude;
-
-    return characters;
-  }, [
-    useMatrixCharacterSet,
-    includeCursedCharacters,
-    additionalCharactersToInclude,
-  ]);
+  const characterSet = useMemo(
+    (): string => (characters += additionalCharactersToInclude),
+    [characters, additionalCharactersToInclude],
+  );
 
   // throw an error if the default text is not provided
   if (typeof defaultText === "undefined") {
@@ -93,7 +74,8 @@ const Ciph3rText = ({
   // throw an error if the action is "transform" and no target text is provided
   if (
     action === "transform" &&
-    (typeof targetText === "undefined" || targetText === "")
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we're just ensuring we don't end up with a null
+    (typeof targetText === "undefined" || targetText === null)
   ) {
     throw new Error('targetText is required for action "transform"');
   }
@@ -363,13 +345,13 @@ const Ciph3rText = ({
    * @returns The rendered text as a React.Fragment
    */
   return (
-    <React.Fragment>
+    <span ref={ref} {...restProps}>
       {isClient
         ? formattedText
         : action === "transform"
           ? targetText
           : defaultText}
-    </React.Fragment>
+    </span>
   );
 };
 

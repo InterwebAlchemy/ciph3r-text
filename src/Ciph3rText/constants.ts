@@ -1,21 +1,6 @@
 // TODO: Allow extending or overriding the base characters
 export const BASE_PRINTABLE_CHARACTERS = `!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~`;
 
-export const MATRIX_CHARACTERS = {
-  kanji: "日二 ",
-  katakana: "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍコソヤ",
-  numbers: "012345789",
-  roman: "ACDEFGHJKLMNPRSTUVWXY",
-  symbols: ':・."=*+-<>|$#&~?!^@¦╌¿£',
-  unknown: "çﾘｸƵツ",
-};
-
-export const CURSED_CHARACTERS = {
-  diacritic: "A̸̡̬̺͝B̶̨̬̟̉̈́C̸̪̙̣̒̎D̶͕̱̜̆͑̚͝E̶̜̞̳̽͐̔͜F̶̧̝̳̜̅̋͝Ģ̴̱͖͌H̴̻̩̪̰͆̒Ḯ̵̧̖̜͝J̴̗͚̝̈̓K̷̦͍͎̮̃͛͂͋L̶͙̦͉̉ͅM̶̢̀́͝N̶͕̣̕O̴̠̔͜Ṕ̶̘̱̀Q̷̡̻̼̩͗̌́R̴̞̼͑̅Ṡ̶̪̜T̵̳͎͑̅̀̿Ȕ̸̩͔̣͈̚V̸̩̹͝W̴̠͎̾̃Ẍ̵͓͙̯̱́Ÿ̶̗̼̙́͋̂Z̶̙̰̟̉͠",
-  blocks: "▒░",
-  symbols: "⏀⏁⏂⏃⏄⏅⏆⏇⏈⏉⏊⏋⏌⏍",
-};
-
 export const ACTIONS = ["encode", "decode", "transform", "scramble"] as const;
 
 export const DEFAULT_REVEAL_PROBABILITY = 0.5;

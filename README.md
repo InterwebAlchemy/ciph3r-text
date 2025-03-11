@@ -46,6 +46,8 @@ There are some configuration options you can use:
 | `onFinish` | callback to execute when the `defaultText` has ben fully decoded, encoded, or transformed | `() => {}` | `undefined` |
 | `iterationSpeed` | how frequently the logic to scramble characters executes | `number` | `120`; `150` (`transform`) |
 | `maxIterations` | how many times the logic to scramble/unscramble characters can run | `number` | `36`; `54` (`transform`) |
+| `characters` | a limited string of characters that you want to use in the effect | `string` | all English alphanumeric characters and most symbols on a standard US keyboard |
+| `additionalCharacters` | an optional string of characters that you want to use in addition to the `characters` | `string` | `""` |
 
 ## Examples
 
