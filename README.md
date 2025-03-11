@@ -6,9 +6,10 @@ https://github.com/user-attachments/assets/cac34beb-8eeb-4936-852f-ed9778ec4a46
 
 A React Component that animates transforming a string of text:
 
-- `encode`: slowly scramble the text by replacing characters
-- `decode`: start with scrambed text and unscramble it by replacing characters and slowly revealing the text
+- `encode`: gradually encode the text by replacing characters with random ones
+- `decode`: start with encoded text and decode it by replacing characters and gradually revealing the underlying text
 - `transform`: convert one string into another by padding it with random characters or removing extra characters while slowly revealing the target text
+- `scramble`: keep mutating the text by replacing random characters with other random characters
 
 ## Getting Started
 
@@ -32,12 +33,12 @@ import Ciph3rText from "@interwebalchemy/ciph3r-text";
 Render the Component:
 
 ```tsx
-<Ciph3rText defaultText="https://interwebalchemy.com/" action="decode" />
+<Ciph3rText defaultText="Hello, world!" action="decode" />
 ```
 
 ## Configuration
 
-There are some configuration options you can use:
+The `<Ciph3rText>` component has several props you can use to control how the characters are changed:
 
 <!-- prettier-ignore -->
 | **Property** | **Description** | **Type** | **Default** |
@@ -51,9 +52,9 @@ There are some configuration options you can use:
 | `characters` | a limited string of characters that you want to use in the effect | `string` | [view source](https://github.com/InterwebAlchemy/ciph3r-text/blob/main/src/Ciph3rText/constants.ts#L2) |
 | `additionalCharacters` | an optional string of characters that you want to use in addition to the `characters` | `string` | `""` |
 
-### Usage Tips
+## Usage Tips
 
-For a more interesting effect, you may consider breaking your string into chunks of random size and applying varying colors, `iterationSpeed`, etc., to each chunk.
+- For a more interesting effect, you may consider breaking your string into chunks of random size and applying varying colors, `iterationSpeed`, etc., to each chunk.
 - Find some unique characters to use. Maybe get inspired by [the Matrix](https://scifi.stackexchange.com/a/182823/217400) or add some [cursed diacritics](https://lingojam.com/CursedText)?
 - You can leverage the `onFinish` callback to swap `defaultText` or `targetText` or change the `action` to create interesting effects chains.
 
