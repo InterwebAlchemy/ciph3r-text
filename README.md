@@ -43,13 +43,19 @@ There are some configuration options you can use:
 | **Property** | **Description** | **Type** | **Default** |
 | -----------  | --------------- | -------- | ----------- |
 | `defaultText` **required** | the text to display during server rendering, after decoding, or before encoding or transforming | `string` | `undefined` |
-| `action` | controls whether the text is `encoded`, `decoded`, or `transformed` | `"encode"` | `"decode"`, `"endcode"`, or `"transform"` |
+| `action` | controls whether the text is encoded, decoded, transformed, or scrambled | `"encode"` | `"decode"`, `"endcode"`, `"transform"`, `scramble` |
 | `targetText` *required if `action="transform"`* | the text to transform into when using `action="transform"` | `string` | `undefined` |
-| `onFinish` | callback to execute when the `defaultText` has ben fully decoded, encoded, or transformed | `() => {}` | `undefined` |
-| `iterationSpeed` | how frequently the logic to scramble characters executes | `number` | `120`; `150` (`transform`) |
-| `maxIterations` | how many times the logic to scramble/unscramble characters can run | `number` | `36`; `54` (`transform`) |
-| `characters` | a limited string of characters that you want to use in the effect | `string` | all English alphanumeric characters and most symbols on a standard US keyboard |
+| `onFinish` *not applicable if `action="scramble"` | callback to execute when the `defaultText` has been fully decoded, encoded, or transformed | `() => {}` | `undefined` |
+| `iterationSpeed` | how frequently the logic to change characters executes | `number` | `120`; `150` (`transform`) |
+| `maxIterations` *not applicable to `action="scramble"` | how many times the logic to change characters can run | `number` | `36`; `54` (`transform`) |
+| `characters` | a limited string of characters that you want to use in the effect | `string` | [view source](https://github.com/InterwebAlchemy/ciph3r-text/blob/main/src/Ciph3rText/constants.ts#L2) |
 | `additionalCharacters` | an optional string of characters that you want to use in addition to the `characters` | `string` | `""` |
+
+### Usage Tips
+
+For a more interesting effect, you may consider breaking your string into chunks of random size and applying varying colors, `iterationSpeed`, etc., to each chunk.
+- Find some unique characters to use. Maybe get inspired by [the Matrix](https://scifi.stackexchange.com/a/182823/217400) or add some [cursed diacritics](https://lingojam.com/CursedText)?
+- You can leverage the `onFinish` callback to swap `defaultText` or `targetText` or change the `action` to create interesting effects chains.
 
 ## Examples
 
