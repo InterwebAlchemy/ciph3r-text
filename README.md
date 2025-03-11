@@ -1,6 +1,8 @@
 # Ciph3rText
 
-https://github.com/user-attachments/assets/5f66db83-ceb6-4625-a90b-f5615687e630
+https://github.com/user-attachments/assets/cac34beb-8eeb-4936-852f-ed9778ec4a46
+
+**Note**: You can find some demo videos of this in action in the [examples directory](./examples).
 
 A React Component that animates transforming a string of text:
 
