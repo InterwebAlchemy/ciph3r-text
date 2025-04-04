@@ -14,6 +14,7 @@ export default [
       "commitlint.config.js",
       "rollup.config.mjs",
       "eslint.config.js",
+      "scriptlint.config.js",
     ],
   },
   {

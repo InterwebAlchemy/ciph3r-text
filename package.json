@@ -32,7 +32,11 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/types"
+    "dist/index.d.ts",
+    "dist/index.js.map",
+    "dist/types.d.ts",
+    "dist/constants.d.ts",
+    "dist/utils.d.ts"
   ],
   "keywords": [
     "react-component",
