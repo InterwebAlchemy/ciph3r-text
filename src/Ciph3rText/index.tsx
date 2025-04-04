@@ -306,7 +306,7 @@ const Ciph3rText = ({
     setIsDone(false);
     setIterations(0);
     setFormattedText(formatDefaultText(defaultText));
-  }, [defaultText, characters, additionalCharactersToInclude]);
+  }, [defaultText, characters, additionalCharactersToInclude, action]);
 
   // this hook will call the onFinish callback if one was supplied
   useEffect(() => {
