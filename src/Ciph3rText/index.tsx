@@ -22,6 +22,15 @@ import {
   scrambleCharacters,
 } from "./utils";
 
+export type { Ciph3rTextProps };
+
+export {
+  ACTIONS,
+  BASE_PRINTABLE_CHARACTERS,
+  DEFAULT_MAX_ITERATIONS,
+  DEFAULT_SPEED,
+};
+
 /**
  * Ciph3rText is a React component that transforms text between encode, decode, and transform actions.
  *
